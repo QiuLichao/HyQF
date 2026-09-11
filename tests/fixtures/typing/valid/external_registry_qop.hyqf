@@ -1,0 +1,4 @@
+qfunc f(a: Complex, q: Qubit) -> Qubit {
+    let q = Pulse(a, q);
+    return q;
+}

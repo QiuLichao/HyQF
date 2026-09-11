@@ -1,0 +1,67 @@
+Program
+  ConstDecl arithmetic
+    BinaryExpr +
+      LiteralExpr Int 1
+      BinaryExpr *
+        LiteralExpr Int 2
+        BinaryExpr **
+          LiteralExpr Int 3
+          UnaryExpr -
+            LiteralExpr Int 4
+  ConstDecl logical
+    BinaryExpr ||
+      UnaryExpr !
+        IdentifierExpr a
+      BinaryExpr &&
+        IdentifierExpr b
+        IdentifierExpr c
+  ConstDecl bitwise
+    BinaryExpr |
+      IdentifierExpr a
+      BinaryExpr ^
+        IdentifierExpr b
+        BinaryExpr &
+          IdentifierExpr c
+          IdentifierExpr d
+  ConstDecl compare
+    BinaryExpr !=
+      BinaryExpr ==
+        IdentifierExpr a
+        IdentifierExpr b
+      BinaryExpr >=
+        BinaryExpr >
+          BinaryExpr <=
+            BinaryExpr <
+              IdentifierExpr c
+              IdentifierExpr d
+            IdentifierExpr e
+          IdentifierExpr f
+        IdentifierExpr g
+  ConstDecl postfix
+    IndexExpr
+      CallExpr
+        Callee
+          IndexExpr
+            IdentifierExpr matrix
+            LiteralExpr Int 0
+        Arguments
+          IdentifierExpr x
+          IdentifierExpr y
+      LiteralExpr Int 1
+  ConstDecl tuple_value
+    TupleExpr
+      LiteralExpr Int 1
+      LiteralExpr Int 2
+      LiteralExpr Int 3
+  ConstDecl array_value
+    ArrayExpr
+      LiteralExpr Int 1
+      LiteralExpr Int 2
+      LiteralExpr Int 3
+  ConstDecl transforms
+    ComposeExpr
+      IdentifierExpr f
+      IdentifierExpr g
+      RepeatExpr
+        LiteralExpr Int 3
+        IdentifierExpr h

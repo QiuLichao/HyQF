@@ -1,0 +1,4 @@
+qfunc f() -> Array<Qubit> {
+    let qs = new Qubit[1.0];
+    return qs;
+}

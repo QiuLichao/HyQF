@@ -1,0 +1,3 @@
+func pack(a: Int, b: Float, c: Bool) -> (Int, (Float, Bool)) {
+    return (a, (b, c));
+}

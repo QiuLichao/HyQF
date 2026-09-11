@@ -1,0 +1,3 @@
+func bad(q: Qubit) -> Int {
+    return 1;
+}

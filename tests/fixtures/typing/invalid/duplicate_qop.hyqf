@@ -1,0 +1,1 @@
+qop H(q: Qubit) -> Qubit effects { unitary };

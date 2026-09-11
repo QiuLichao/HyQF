@@ -1,0 +1,2 @@
+qfunc f(q: Qubit) -> Qubit {
+    return q;

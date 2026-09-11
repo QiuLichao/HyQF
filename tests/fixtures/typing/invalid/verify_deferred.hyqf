@@ -1,0 +1,5 @@
+qfunc f(q: Qubit) -> Qubit {
+    return q;
+}
+
+verify f equiv f;

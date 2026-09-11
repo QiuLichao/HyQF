@@ -1,0 +1,8 @@
+module demo.hybrid;
+symbol alpha: Complex;
+qfunc evolve(q: Qubit, m: Qumode, a: Complex) -> (Qubit, Qumode) {
+    let q = H(q);
+    let m = D(a, m);
+    let (q, m) = CD(a, q, m);
+    return (q, m);
+}

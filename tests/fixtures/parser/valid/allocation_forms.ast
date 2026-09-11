@@ -1,0 +1,12 @@
+Program
+  QFuncDecl allocate() -> (Qubit, Array<Qumode>)
+    Block
+      LetStmt q
+        AllocationExpr Qubit
+      LetStmt modes
+        AllocationExpr Qumode
+          LiteralExpr Int 3
+      ReturnStmt
+        TupleExpr
+          IdentifierExpr q
+          IdentifierExpr modes

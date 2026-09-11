@@ -1,0 +1,10 @@
+qfunc casts(q: Qubit) -> Int {
+    let (q, bit) = measure_z(q);
+    let as_int = int(bit);
+    let as_float = float(as_int);
+    let cond = bool(bit);
+    if (cond) {
+        let as_int = as_int + 1;
+    }
+    return as_int;
+}

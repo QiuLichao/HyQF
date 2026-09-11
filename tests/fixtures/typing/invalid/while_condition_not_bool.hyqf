@@ -1,0 +1,6 @@
+func f() -> Int {
+    while (1) {
+        return 1;
+    }
+    return 2;
+}

@@ -1,0 +1,6 @@
+qop Pulse(a: Complex, q: Qubit) -> Qubit effects { unitary };
+
+qfunc f(a: Complex, q: Qubit) -> Qubit {
+    let q = Pulse(a, q);
+    return q;
+}

@@ -1,0 +1,8 @@
+func inc(x: Int) -> Int {
+    return x + 1;
+}
+
+func twice(x: Int) -> Int {
+    let y = inc(x);
+    return inc(y);
+}

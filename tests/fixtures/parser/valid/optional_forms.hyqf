@@ -1,0 +1,12 @@
+const inferred = 1;
+symbol alpha: Complex;
+
+func do_nothing() {
+    return;
+}
+
+qfunc touch(q: Qubit) {
+    let q = H(q);
+}
+
+verify f equiv g;

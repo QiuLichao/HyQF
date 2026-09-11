@@ -1,0 +1,4 @@
+func f() -> Int {
+    let x: Float = 1;
+    return 1;
+}

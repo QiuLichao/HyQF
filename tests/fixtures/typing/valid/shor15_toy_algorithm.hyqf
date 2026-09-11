@@ -1,0 +1,70 @@
+module algorithms.shor15;
+
+qop CP(theta: Float, ctrl: Qubit, target: Qubit) -> (Qubit, Qubit) effects { unitary };
+qop SWAP(a: Qubit, b: Qubit) -> (Qubit, Qubit) effects { unitary };
+qop CCX(a: Qubit, b: Qubit, c: Qubit) -> (Qubit, Qubit, Qubit) effects { unitary };
+
+qfunc prepare_counting(c0: Qubit, c1: Qubit, c2: Qubit, c3: Qubit)
+    -> (Qubit, Qubit, Qubit, Qubit) {
+    let c0 = H(c0);
+    let c1 = H(c1);
+    let c2 = H(c2);
+    let c3 = H(c3);
+    return (c0, c1, c2, c3);
+}
+
+qfunc modular_exp_15_a2(
+    c0: Qubit,
+    c1: Qubit,
+    c2: Qubit,
+    c3: Qubit,
+    w0: Qubit,
+    w1: Qubit,
+    w2: Qubit,
+    w3: Qubit
+) -> (Qubit, Qubit, Qubit, Qubit, Qubit, Qubit, Qubit, Qubit) {
+    let (c0, w1) = CX(c0, w1);
+    let (c1, w2) = CX(c1, w2);
+    let (c2, w0, w3) = CCX(c2, w0, w3);
+    let (c3, w1, w2) = CCX(c3, w1, w2);
+    return (c0, c1, c2, c3, w0, w1, w2, w3);
+}
+
+qfunc inverse_qft4(c0: Qubit, c1: Qubit, c2: Qubit, c3: Qubit)
+    -> (Qubit, Qubit, Qubit, Qubit) {
+    let (c0, c3) = SWAP(c0, c3);
+    let (c1, c2) = SWAP(c1, c2);
+    let c0 = H(c0);
+    let (c0, c1) = CP(-1.570796, c0, c1);
+    let c1 = H(c1);
+    let (c0, c2) = CP(-0.785398, c0, c2);
+    let (c1, c2) = CP(-1.570796, c1, c2);
+    let c2 = H(c2);
+    let (c0, c3) = CP(-0.392699, c0, c3);
+    let (c1, c3) = CP(-0.785398, c1, c3);
+    let (c2, c3) = CP(-1.570796, c2, c3);
+    let c3 = H(c3);
+    return (c0, c1, c2, c3);
+}
+
+qfunc shor_order_find_15_a2() -> (Bit, Bit, Bit, Bit) {
+    let c0 = new Qubit;
+    let c1 = new Qubit;
+    let c2 = new Qubit;
+    let c3 = new Qubit;
+    let w0 = new Qubit;
+    let w1 = new Qubit;
+    let w2 = new Qubit;
+    let w3 = new Qubit;
+
+    let w0 = X(w0);
+    let (c0, c1, c2, c3) = prepare_counting(c0, c1, c2, c3);
+    let (c0, c1, c2, c3, w0, w1, w2, w3) = modular_exp_15_a2(c0, c1, c2, c3, w0, w1, w2, w3);
+    let (c0, c1, c2, c3) = inverse_qft4(c0, c1, c2, c3);
+
+    let (c0, b0) = measure_z(c0);
+    let (c1, b1) = measure_z(c1);
+    let (c2, b2) = measure_z(c2);
+    let (c3, b3) = measure_z(c3);
+    return (b0, b1, b2, b3);
+}

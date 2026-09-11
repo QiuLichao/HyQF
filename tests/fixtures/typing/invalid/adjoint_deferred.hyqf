@@ -1,0 +1,4 @@
+qfunc f(q: Qubit) -> Qubit {
+    let g = adjoint f;
+    return q;
+}

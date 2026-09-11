@@ -1,0 +1,5 @@
+qfunc f() -> Qubit {
+    let q = new Qubit;
+    let q = D(1.0j, q);
+    return q;
+}

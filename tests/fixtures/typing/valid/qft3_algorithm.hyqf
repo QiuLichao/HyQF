@@ -1,0 +1,15 @@
+module algorithms.qft;
+
+qop CP(theta: Float, ctrl: Qubit, target: Qubit) -> (Qubit, Qubit) effects { unitary };
+qop SWAP(a: Qubit, b: Qubit) -> (Qubit, Qubit) effects { unitary };
+
+qfunc qft3(q0: Qubit, q1: Qubit, q2: Qubit) -> (Qubit, Qubit, Qubit) {
+    let q0 = H(q0);
+    let (q1, q0) = CP(1.570796, q1, q0);
+    let (q2, q0) = CP(0.785398, q2, q0);
+    let q1 = H(q1);
+    let (q2, q1) = CP(1.570796, q2, q1);
+    let q2 = H(q2);
+    let (q0, q2) = SWAP(q0, q2);
+    return (q0, q1, q2);
+}

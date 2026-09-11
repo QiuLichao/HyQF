@@ -1,0 +1,3 @@
+Program
+  ConstDecl x: Int
+    LiteralExpr Int 1

@@ -1,0 +1,13 @@
+Program
+  QFuncDecl patterns(q: Qubit) -> Qubit
+    Block
+      LetStmt _
+        LiteralExpr Int 1
+      LetStmt (q, _)
+        CallExpr
+          Callee
+            IdentifierExpr measure_z
+          Arguments
+            IdentifierExpr q
+      ReturnStmt
+        IdentifierExpr q

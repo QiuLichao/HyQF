@@ -1,0 +1,14 @@
+qop Typed(
+    a: Bool,
+    b: Bit,
+    c: Int,
+    d: UInt,
+    e: Float,
+    f: Complex,
+    g: Void,
+    h: Array<Qubit>,
+    i: (Int, Float, Complex),
+    j: fn(Int, Float) -> Bool,
+    k: qfn(Qubit, Qumode) -> (Qubit, Qumode),
+    l: Qudit<3>
+) -> Array<(Qubit, Qumode)> effects { pure, unitary, measurement, allocation, control };

@@ -1,0 +1,8 @@
+qfunc protocol(a: Complex) -> (Qubit, Qumode) {
+    let q = new Qubit;
+    let m = new Qumode;
+    let q = H(q);
+    let m = D(1.0j, m);
+    let (q, m) = CD(a, q, m);
+    return (q, m);
+}

@@ -1,0 +1,8 @@
+// integers, floats, exponents, complex literals, booleans
+/* comments must be ignored by the lexer */
+const i = 42;
+const f = 3.14159;
+const s = 1e-5;
+const c = 2.5j;
+const t = true;
+const b = false;

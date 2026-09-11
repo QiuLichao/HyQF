@@ -1,0 +1,3 @@
+qfunc f(q: Qubit) {
+    q = H(q);
+}

@@ -1,0 +1,8 @@
+const arithmetic = 1 + 2 * 3 ** -4;
+const logical = !a || b && c;
+const bitwise = a | b ^ c & d;
+const compare = a == b != c < d <= e > f >= g;
+const postfix = matrix[0](x, y)[1];
+const tuple_value = (1, 2, 3);
+const array_value = [1, 2, 3];
+const transforms = compose(f, g, repeat(3, h));

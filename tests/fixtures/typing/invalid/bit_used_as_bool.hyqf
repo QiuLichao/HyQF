@@ -1,0 +1,7 @@
+qfunc f(q: Qubit) -> Qubit {
+    let (q, r) = measure_z(q);
+    if (r) {
+        let q = X(q);
+    }
+    return q;
+}

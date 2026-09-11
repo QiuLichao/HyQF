@@ -1,0 +1,9 @@
+qfunc prepare(q: Qubit) -> Qubit {
+    let q = H(q);
+    return q;
+}
+
+qfunc caller(q: Qubit) -> Qubit {
+    let q = prepare(q);
+    return q;
+}

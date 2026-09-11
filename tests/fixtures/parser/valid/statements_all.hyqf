@@ -1,0 +1,19 @@
+func statements(x: Int) -> Int {
+    let y: Int = x;
+    var z: Int = y + 1;
+    z = z + 1;
+    inc(z);
+    if (true) {
+        let a = 1;
+    } else {
+        let b = 2;
+    }
+    while (false) {
+        break;
+        continue;
+    }
+    for i in [1, 2, 3] {
+        let n = i;
+    }
+    return z;
+}

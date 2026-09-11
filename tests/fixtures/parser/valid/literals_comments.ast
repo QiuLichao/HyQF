@@ -1,0 +1,13 @@
+Program
+  ConstDecl i
+    LiteralExpr Int 42
+  ConstDecl f
+    LiteralExpr Float 3.14159
+  ConstDecl s
+    LiteralExpr Float 1e-05
+  ConstDecl c
+    LiteralExpr Complex 2.5j
+  ConstDecl t
+    LiteralExpr Bool True
+  ConstDecl b
+    LiteralExpr Bool False

@@ -1,0 +1,30 @@
+Program
+  ModuleDecl name=demo.hybrid
+  SymbolDecl alpha: Complex
+  QFuncDecl evolve(q: Qubit, m: Qumode, a: Complex) -> (Qubit, Qumode)
+    Block
+      LetStmt q
+        CallExpr
+          Callee
+            IdentifierExpr H
+          Arguments
+            IdentifierExpr q
+      LetStmt m
+        CallExpr
+          Callee
+            IdentifierExpr D
+          Arguments
+            IdentifierExpr a
+            IdentifierExpr m
+      LetStmt (q, m)
+        CallExpr
+          Callee
+            IdentifierExpr CD
+          Arguments
+            IdentifierExpr a
+            IdentifierExpr q
+            IdentifierExpr m
+      ReturnStmt
+        TupleExpr
+          IdentifierExpr q
+          IdentifierExpr m

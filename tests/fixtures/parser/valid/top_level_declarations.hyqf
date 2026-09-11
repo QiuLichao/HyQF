@@ -1,0 +1,12 @@
+module demo.hybrid;
+import std.dv.*;
+symbol theta: Float where theta >= 0.0 && theta <= 6.283185;
+const one: Int = 1;
+qop Pulse(a: Complex, q: Qubit) -> Qubit effects { unitary };
+func inc(x: Int) -> Int {
+    return x + 1;
+}
+qfunc id(q: Qubit) -> Qubit {
+    return q;
+}
+verify id equiv id modulo global_phase;

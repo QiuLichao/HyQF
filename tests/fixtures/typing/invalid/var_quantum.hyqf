@@ -1,0 +1,4 @@
+qfunc f() {
+    let q = new Qubit;
+    var x = q;
+}

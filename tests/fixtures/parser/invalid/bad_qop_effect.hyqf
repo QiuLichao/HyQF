@@ -1,0 +1,1 @@
+qop Bad(q: Qubit) -> Qubit effects { reversible };

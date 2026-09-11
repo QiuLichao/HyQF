@@ -1,0 +1,4 @@
+qfunc f(q: Qubit) -> Qubit {
+    let g = repeat(2, f);
+    return q;
+}

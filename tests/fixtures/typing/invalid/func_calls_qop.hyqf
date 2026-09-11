@@ -1,0 +1,4 @@
+func bad(q: Int) -> Int {
+    H(q);
+    return q;
+}

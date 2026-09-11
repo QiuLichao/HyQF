@@ -1,0 +1,32 @@
+module algorithms.teleportation;
+
+qop I(q: Qubit) -> Qubit effects { unitary };
+qop Z(q: Qubit) -> Qubit effects { unitary };
+
+qfunc teleport(payload: Qubit) -> Qubit {
+    let alice = new Qubit;
+    let bob = new Qubit;
+
+    let alice = H(alice);
+    let (alice, bob) = CX(alice, bob);
+
+    let (payload, alice) = CX(payload, alice);
+    let payload = H(payload);
+
+    let (payload, m0) = measure_z(payload);
+    let (alice, m1) = measure_z(alice);
+
+    if (bool(m1)) {
+        let bob = X(bob);
+    } else {
+        let bob = I(bob);
+    }
+
+    if (bool(m0)) {
+        let bob = Z(bob);
+    } else {
+        let bob = I(bob);
+    }
+
+    return bob;
+}

@@ -1,0 +1,4 @@
+qfunc f(q: Qubit) -> Qubit {
+    let g = compose(f, f);
+    return q;
+}

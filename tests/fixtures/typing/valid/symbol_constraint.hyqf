@@ -1,0 +1,1 @@
+symbol theta: Float where theta >= 0.0 && theta <= 6.283185;

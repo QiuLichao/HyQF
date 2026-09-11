@@ -1,0 +1,50 @@
+Program
+  FuncDecl statements(x: Int) -> Int
+    Block
+      LetStmt y: Int
+        IdentifierExpr x
+      VarStmt z: Int
+        BinaryExpr +
+          IdentifierExpr y
+          LiteralExpr Int 1
+      AssignmentStmt
+        IdentifierExpr z
+        BinaryExpr +
+          IdentifierExpr z
+          LiteralExpr Int 1
+      ExprStmt
+        CallExpr
+          Callee
+            IdentifierExpr inc
+          Arguments
+            IdentifierExpr z
+      IfStmt
+        Condition
+          LiteralExpr Bool True
+        Then
+          Block
+            LetStmt a
+              LiteralExpr Int 1
+        Else
+          Block
+            LetStmt b
+              LiteralExpr Int 2
+      WhileStmt
+        Condition
+          LiteralExpr Bool False
+        Body
+          Block
+            BreakStmt
+            ContinueStmt
+      ForStmt i
+        Iterable
+          ArrayExpr
+            LiteralExpr Int 1
+            LiteralExpr Int 2
+            LiteralExpr Int 3
+        Body
+          Block
+            LetStmt n
+              IdentifierExpr i
+      ReturnStmt
+        IdentifierExpr z

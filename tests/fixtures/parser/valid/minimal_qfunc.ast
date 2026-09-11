@@ -1,0 +1,11 @@
+Program
+  QFuncDecl f(q: Qubit) -> Qubit
+    Block
+      LetStmt q
+        CallExpr
+          Callee
+            IdentifierExpr H
+          Arguments
+            IdentifierExpr q
+      ReturnStmt
+        IdentifierExpr q

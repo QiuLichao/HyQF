@@ -1,0 +1,11 @@
+qfunc branch() -> Qubit {
+    let q = new Qubit;
+    let (q, r) = measure_z(q);
+    let x = int(r) + 2;
+    if (bool(r)) {
+        let q = X(q);
+    } else {
+        let q = H(q);
+    }
+    return q;
+}

@@ -1,0 +1,28 @@
+Program
+  ModuleDecl name=demo.hybrid
+  ImportDecl name=std.dv.*
+  SymbolDecl theta: Float
+    Where
+      BinaryExpr &&
+        BinaryExpr >=
+          IdentifierExpr theta
+          LiteralExpr Float 0.0
+        BinaryExpr <=
+          IdentifierExpr theta
+          LiteralExpr Float 6.283185
+  ConstDecl one: Int
+    LiteralExpr Int 1
+  QopDecl Pulse(a: Complex, q: Qubit) -> Qubit effects {unitary}
+  FuncDecl inc(x: Int) -> Int
+    Block
+      ReturnStmt
+        BinaryExpr +
+          IdentifierExpr x
+          LiteralExpr Int 1
+  QFuncDecl id(q: Qubit) -> Qubit
+    Block
+      ReturnStmt
+        IdentifierExpr q
+  VerifyDecl modulo global_phase
+    IdentifierExpr id
+    IdentifierExpr id

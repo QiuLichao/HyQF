@@ -1,0 +1,4 @@
+qfunc f(q: Qubit) -> Qubit {
+    let 1 = H(q);
+    return q;
+}

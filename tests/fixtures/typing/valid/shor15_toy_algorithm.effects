@@ -1,0 +1,4 @@
+inverse_qft4: unitary
+modular_exp_15_a2: unitary
+prepare_counting: unitary
+shor_order_find_15_a2: allocation, measurement, unitary

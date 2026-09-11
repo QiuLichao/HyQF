@@ -1,0 +1,15 @@
+qfunc chain(q: Qubit) -> Qubit {
+    let q = H(q);
+    let q = X(q);
+    let q = RZ(0.125, q);
+    let q = H(q);
+    let q = X(q);
+    let q = RZ(0.25, q);
+    let q = H(q);
+    let q = X(q);
+    let q = RZ(0.5, q);
+    let q = H(q);
+    let q = X(q);
+    let q = RZ(1.0, q);
+    return q;
+}

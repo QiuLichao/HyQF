@@ -1,0 +1,4 @@
+func f() -> Int {
+    let (a, b, c) = (1, 2);
+    return a;
+}

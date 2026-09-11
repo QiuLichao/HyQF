@@ -1,0 +1,4 @@
+func f() -> Int {
+    var x: Bool = 1;
+    return 1;
+}

@@ -1,0 +1,6 @@
+qop Marker(q: Qubit) -> Qubit effects { pure, unitary };
+
+qfunc f(q: Qubit) -> Qubit {
+    let q = Marker(q);
+    return q;
+}

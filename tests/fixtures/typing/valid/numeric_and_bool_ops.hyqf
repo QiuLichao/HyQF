@@ -1,0 +1,7 @@
+func ops(a: Int, b: Int, c: Float, flag: Bool) -> Bool {
+    let x = a + b * 2 - 1;
+    let y = c / 2.0;
+    let same = x == a;
+    let bigger = y > 0.0;
+    return same && bigger || flag;
+}

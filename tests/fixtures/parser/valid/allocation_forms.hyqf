@@ -1,0 +1,5 @@
+qfunc allocate() -> (Qubit, Array<Qumode>) {
+    let q = new Qubit;
+    let modes = new Qumode[3];
+    return (q, modes);
+}

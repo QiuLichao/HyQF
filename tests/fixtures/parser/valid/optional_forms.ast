@@ -1,0 +1,19 @@
+Program
+  ConstDecl inferred
+    LiteralExpr Int 1
+  SymbolDecl alpha: Complex
+  FuncDecl do_nothing() -> Void
+    Block
+      ReturnStmt
+        None
+  QFuncDecl touch(q: Qubit) -> Void
+    Block
+      LetStmt q
+        CallExpr
+          Callee
+            IdentifierExpr H
+          Arguments
+            IdentifierExpr q
+  VerifyDecl
+    IdentifierExpr f
+    IdentifierExpr g

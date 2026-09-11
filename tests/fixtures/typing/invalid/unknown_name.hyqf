@@ -1,0 +1,4 @@
+qfunc f(q: Qubit) -> Qubit {
+    let q = Missing(q);
+    return q;
+}

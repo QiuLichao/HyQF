@@ -1,0 +1,6 @@
+qfunc loop(q: Qubit, keep_going: Bool) -> Qubit {
+    while (keep_going) {
+        let q = H(q);
+    }
+    return q;
+}
