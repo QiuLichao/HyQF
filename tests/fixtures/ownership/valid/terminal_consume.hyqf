@@ -1,0 +1,5 @@
+qop discard(q: Qubit) -> Void effects { measurement };
+
+qfunc consume(q: Qubit) {
+    discard(q);
+}

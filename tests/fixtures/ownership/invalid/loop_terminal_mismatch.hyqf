@@ -1,0 +1,8 @@
+qop discard(q: Qubit) -> Void effects { measurement };
+
+qfunc bad(q: Qubit, keep_going: Bool) -> Qubit {
+    while (keep_going) {
+        discard(q);
+    }
+    return q;
+}

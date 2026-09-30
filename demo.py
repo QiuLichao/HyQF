@@ -3,13 +3,13 @@ from hyqf.frontend.pretty import print_ast
 from hyqf.semantics.typecheck import TypeChecker
 
 source = """
-qfunc protocol(a: Complex) -> (Qubit, Qumode) {
-    let q = new Qubit;
-    let m = new Qumode;
-    let q = H(q);
-    let (q, m) = CD(a, q, m);
-    return (q, m);
+qfunc bad() -> Qubit {
+    let qs = new Qubit[2];
+    let qs[0] = H(qs[0]);
+    let again = qs[0];
+    return qs[0];
 }
+
 """
 
 program = parse_source(source, file="example.hyqf")

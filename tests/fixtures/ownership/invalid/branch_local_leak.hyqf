@@ -1,0 +1,6 @@
+qfunc bad(q: Qubit, enabled: Bool) -> Qubit {
+    if (enabled) {
+        let p = H(q);
+    }
+    return q;
+}

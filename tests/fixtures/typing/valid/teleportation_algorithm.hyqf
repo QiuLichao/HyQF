@@ -2,6 +2,7 @@ module algorithms.teleportation;
 
 qop I(q: Qubit) -> Qubit effects { unitary };
 qop Z(q: Qubit) -> Qubit effects { unitary };
+qop discard(q: Qubit) -> Void effects { measurement };
 
 qfunc teleport(payload: Qubit) -> Qubit {
     let alice = new Qubit;
@@ -15,6 +16,8 @@ qfunc teleport(payload: Qubit) -> Qubit {
 
     let (payload, m0) = measure_z(payload);
     let (alice, m1) = measure_z(alice);
+    discard(payload);
+    discard(alice);
 
     if (bool(m1)) {
         let bob = X(bob);

@@ -1,0 +1,5 @@
+qfunc renamed(q: Qubit) -> Qubit {
+    let p = H(q);
+    let r = X(p);
+    return r;
+}

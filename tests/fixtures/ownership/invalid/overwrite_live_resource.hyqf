@@ -1,0 +1,4 @@
+qfunc bad(q: Qubit) -> Qubit {
+    let q = new Qubit;
+    return q;
+}

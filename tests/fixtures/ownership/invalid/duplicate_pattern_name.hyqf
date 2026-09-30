@@ -1,0 +1,4 @@
+qfunc bad(a: Qubit, b: Qubit) -> Qubit {
+    let (q, q) = CX(a, b);
+    return q;
+}

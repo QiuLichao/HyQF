@@ -1,0 +1,4 @@
+qfunc move_once(q: Qubit) -> Qubit {
+    let p = q;
+    return p;
+}

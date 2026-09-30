@@ -1,0 +1,4 @@
+qfunc sample(q: Qubit) -> (Qubit, Bit) {
+    let (q, bit) = measure_z(q);
+    return (q, bit);
+}

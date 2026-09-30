@@ -1,0 +1,4 @@
+qfunc hybrid(a: Complex, q: Qubit, m: Qumode) -> (Qubit, Qumode) {
+    let (q, m) = CD(a, q, m);
+    return (q, m);
+}

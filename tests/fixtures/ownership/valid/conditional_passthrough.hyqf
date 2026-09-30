@@ -1,0 +1,6 @@
+qfunc conditional(q: Qubit, enabled: Bool) -> Qubit {
+    if (enabled) {
+        let q = H(q);
+    }
+    return q;
+}

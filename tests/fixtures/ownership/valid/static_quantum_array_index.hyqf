@@ -1,0 +1,8 @@
+qfunc transform_array() -> Array<Qubit> {
+    let qs = new Qubit[2];
+    let q0 = qs[0];
+    let q1 = qs[1];
+    let q0 = H(q0);
+    let qs = [q0, q1];
+    return qs;
+}

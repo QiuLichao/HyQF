@@ -1,0 +1,6 @@
+qfunc bad(q: Qubit, keep_going: Bool) -> Qubit {
+    while (keep_going) {
+        break;
+    }
+    return q;
+}

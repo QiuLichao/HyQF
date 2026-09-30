@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from hyqf.diagnostics.errors import EffectError, HyQFTypeError, NameResolutionError, VerificationUnsupported
 from hyqf.frontend import ast
 from hyqf.semantics.effects import Effect, normalize_effects
+from hyqf.semantics.ownership import OwnershipChecker
 from hyqf.semantics.qops import OperationSignature, QopRegistry, standard_classical_functions, standard_registry
 from hyqf.semantics.symbols import Symbol, SymbolTable
 from hyqf.semantics.types import (
@@ -51,6 +52,8 @@ class TypeChecker:
         for decl in program.declarations:
             if isinstance(decl, ast.SymbolDecl):
                 self._ensure_supported_type(decl.annotation, decl.span)
+                if decl.annotation.contains_quantum():
+                    raise HyQFTypeError("symbol parameters may not have quantum types", decl.span)
                 self.global_scope.define(Symbol(decl.name, decl.annotation, "symbol", decl.span))
             elif isinstance(decl, ast.ConstDecl):
                 pass
@@ -73,9 +76,10 @@ class TypeChecker:
                 self._check_function(decl)
                 function_decls.append(decl)
             elif isinstance(decl, ast.VerifyDecl):
-                raise VerificationUnsupported("verification is Phase G and is not implemented in Phase A/B", decl.span)
+                raise VerificationUnsupported("verification is Phase G and is not implemented yet", decl.span)
         for decl in function_decls:
             self._check_function(decl)
+        OwnershipChecker(self.global_scope).check(program)
         return CheckedModule(self.global_scope, dict(self.effects))
 
     def _register_qop(self, decl: ast.QopDecl) -> None:
@@ -169,7 +173,7 @@ class TypeChecker:
             scope.define(Symbol(stmt.name, value_type, "var", stmt.span))
         elif isinstance(stmt, ast.AssignmentStmt):
             if not isinstance(stmt.target, ast.IdentifierExpr):
-                raise HyQFTypeError("only identifier assignment is supported in Phase A/B", stmt.target.span)
+                raise HyQFTypeError("only identifier assignment is currently supported", stmt.target.span)
             target = scope.resolve(stmt.target.name, stmt.target.span)
             if target.type.contains_quantum():
                 raise HyQFTypeError("quantum values must use let rebinding, not assignment", stmt.target.span)
@@ -190,7 +194,7 @@ class TypeChecker:
             effects.add(Effect.CONTROL)
             self._check_block(stmt.body, scope, in_qfunc, expected_return, effects)
         elif isinstance(stmt, ast.ForStmt):
-            raise HyQFTypeError("for-loop iterable semantics are not implemented in Phase A/B", stmt.span)
+            raise HyQFTypeError("for-loop iterable semantics are not implemented yet", stmt.span)
         elif isinstance(stmt, ast.ReturnStmt):
             value_type = VOID if stmt.value is None else self._expr_type(stmt.value, scope, in_qfunc, effects)
             self._expect_type(expected_return, value_type, stmt.span)
@@ -210,7 +214,7 @@ class TypeChecker:
             return scope.resolve(expr.name, expr.span).type
         if isinstance(expr, ast.AllocationExpr):
             if expr.quantum_type not in {QUBIT, QUMODE}:
-                raise HyQFTypeError("only Qubit and Qumode allocation are supported in Phase A/B", expr.span)
+                raise HyQFTypeError("only Qubit and Qumode allocation are currently supported", expr.span)
             if in_qfunc is False:
                 raise EffectError("func may not allocate quantum resources", expr.span)
             if expr.size is not None:
@@ -247,13 +251,13 @@ class TypeChecker:
                     raise HyQFTypeError("numeric unary operator requires Int, UInt, Float, or Complex", expr.span, actual=operand)
                 return operand
             if expr.operator in {"adjoint", "controlled"}:
-                raise HyQFTypeError(f"{expr.operator} is Phase F and is not implemented in Phase A/B", expr.span)
+                raise HyQFTypeError(f"{expr.operator} is Phase F and is not implemented yet", expr.span)
         if isinstance(expr, ast.BinaryExpr):
             return self._binary_type(expr, scope, in_qfunc, effects)
         if isinstance(expr, ast.CallExpr):
             return self._call_type(expr, scope, in_qfunc, effects)
         if isinstance(expr, (ast.ComposeExpr, ast.RepeatExpr)):
-            raise HyQFTypeError("function transforms are Phase F and are not implemented in Phase A/B", expr.span)
+            raise HyQFTypeError("function transforms are Phase F and are not implemented yet", expr.span)
         raise HyQFTypeError(f"unsupported expression {type(expr).__name__}", expr.span)
 
     def _binary_type(self, expr: ast.BinaryExpr, scope: SymbolTable, in_qfunc: bool | None, effects: set[Effect]) -> Type:
@@ -271,6 +275,8 @@ class TypeChecker:
                 return INT
             raise HyQFTypeError("bitwise operators require Bit/Bit or Int/Int operands", expr.span, expected="Bit or Int", actual=f"{left}, {right}")
         if op in {"==", "!="}:
+            if left.contains_quantum() or right.contains_quantum():
+                raise HyQFTypeError("quantum values do not support equality operators", expr.span)
             self._expect_type(left, right, expr.right.span)
             return BOOL
         if op in {"<", "<=", ">", ">="}:
@@ -287,7 +293,7 @@ class TypeChecker:
 
     def _call_type(self, expr: ast.CallExpr, scope: SymbolTable, in_qfunc: bool | None, effects: set[Effect]) -> Type:
         if not isinstance(expr.callee, ast.IdentifierExpr):
-            raise HyQFTypeError("only named calls are supported in Phase A/B", expr.callee.span)
+            raise HyQFTypeError("only named calls are currently supported", expr.callee.span)
         symbol = scope.resolve(expr.callee.name, expr.callee.span)
         if not isinstance(symbol.type, FunctionType):
             raise HyQFTypeError("called value is not a function", expr.callee.span, actual=symbol.type)

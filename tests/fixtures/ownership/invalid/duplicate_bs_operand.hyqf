@@ -1,0 +1,4 @@
+qfunc bad(m: Qumode) -> (Qumode, Qumode) {
+    let (a, b) = BS(0.1, 0.0, m, m);
+    return (a, b);
+}

@@ -3,6 +3,7 @@ module algorithms.shor15;
 qop CP(theta: Float, ctrl: Qubit, target: Qubit) -> (Qubit, Qubit) effects { unitary };
 qop SWAP(a: Qubit, b: Qubit) -> (Qubit, Qubit) effects { unitary };
 qop CCX(a: Qubit, b: Qubit, c: Qubit) -> (Qubit, Qubit, Qubit) effects { unitary };
+qop discard(q: Qubit) -> Void effects { measurement };
 
 qfunc prepare_counting(c0: Qubit, c1: Qubit, c2: Qubit, c3: Qubit)
     -> (Qubit, Qubit, Qubit, Qubit) {
@@ -66,5 +67,13 @@ qfunc shor_order_find_15_a2() -> (Bit, Bit, Bit, Bit) {
     let (c1, b1) = measure_z(c1);
     let (c2, b2) = measure_z(c2);
     let (c3, b3) = measure_z(c3);
+    discard(c0);
+    discard(c1);
+    discard(c2);
+    discard(c3);
+    discard(w0);
+    discard(w1);
+    discard(w2);
+    discard(w3);
     return (b0, b1, b2, b3);
 }

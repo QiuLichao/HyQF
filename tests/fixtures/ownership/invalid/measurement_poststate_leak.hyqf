@@ -1,0 +1,4 @@
+qfunc bad(q: Qubit) -> Bit {
+    let (q, bit) = measure_z(q);
+    return bit;
+}

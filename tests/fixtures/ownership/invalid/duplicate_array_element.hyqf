@@ -1,0 +1,6 @@
+qfunc bad() -> Qubit {
+    let qs = new Qubit[2];
+    let q0 = qs[0];
+    let again = qs[0];
+    return q0;
+}

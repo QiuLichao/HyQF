@@ -1,0 +1,3 @@
+qfunc bad(q: Qubit) {
+    H(q);
+}

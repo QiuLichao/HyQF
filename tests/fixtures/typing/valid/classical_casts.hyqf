@@ -1,4 +1,4 @@
-qfunc casts(q: Qubit) -> Int {
+qfunc casts(q: Qubit) -> (Qubit, Int) {
     let (q, bit) = measure_z(q);
     let as_int = int(bit);
     let as_float = float(as_int);
@@ -6,5 +6,5 @@ qfunc casts(q: Qubit) -> Int {
     if (cond) {
         let as_int = as_int + 1;
     }
-    return as_int;
+    return (q, as_int);
 }

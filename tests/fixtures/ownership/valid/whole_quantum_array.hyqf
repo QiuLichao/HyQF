@@ -1,0 +1,4 @@
+qfunc allocate() -> Array<Qubit> {
+    let qs = new Qubit[3];
+    return qs;
+}

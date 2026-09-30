@@ -1,0 +1,4 @@
+qfunc aggregate(q: Qubit, m: Qumode) -> (Qubit, Qumode) {
+    let pair = (q, m);
+    return pair;
+}

@@ -626,12 +626,15 @@ The condition must have type `Bool`.
 
 Each branch starts from the same incoming linear-resource environment. At the merge:
 
-- the same set of outer-scope quantum resource names must remain live in both branches;
-- corresponding resources must have the same quantum type;
-- consuming a resource in only one branch is an ownership error;
+- each fallthrough branch must produce the same outer-scope quantum ownership shape;
+- corresponding live resources must have the same quantum type;
+- an outer resource not modified in a branch is implicitly passed through to the merge;
+- consuming a resource without producing a successor in only one branch is an ownership error;
 - new branch-local resources do not escape unless explicitly returned through a surrounding function/result mechanism.
 
 When a quantum resource is rebound in both branches, lowering creates structured `IfOp` results representing the merged post-branch resource versions.
+When an `if` has no `else`, the missing branch is an implicit pass-through branch. For example,
+`if (c) { let q = H(q); }` merges the transformed `q` with the unchanged incoming `q`.
 
 ### 17.2 `while`
 

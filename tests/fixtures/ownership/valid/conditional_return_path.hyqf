@@ -1,0 +1,8 @@
+qfunc choose(q: Qubit, early: Bool) -> Qubit {
+    if (early) {
+        return q;
+    } else {
+        let q = H(q);
+    }
+    return q;
+}
