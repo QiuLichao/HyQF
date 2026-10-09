@@ -1,0 +1,10 @@
+qop discard(q: Qubit) -> Void effects { measurement };
+
+qfunc make() -> Qubit {
+    let q = new Qubit;
+    return q;
+}
+
+qfunc consume(q: Qubit) {
+    discard(q);
+}

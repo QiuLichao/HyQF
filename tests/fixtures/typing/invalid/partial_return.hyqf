@@ -1,0 +1,5 @@
+qfunc bad(enabled: Bool) -> Int {
+    if (enabled) {
+        return 1;
+    }
+}

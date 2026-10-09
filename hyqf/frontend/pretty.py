@@ -4,22 +4,24 @@ from hyqf.frontend import ast
 from hyqf.frontend.spans import SourceSpan
 
 
-def format_ast(node: ast.Node, *, show_spans: bool = False) -> str:
+def format_ast(node: ast.Node, *, show_spans: bool = False, show_node_ids: bool = False) -> str:
     """Return a stable tree rendering for a HyQF AST node."""
-    printer = AstPrettyPrinter(show_spans=show_spans)
+    printer = AstPrettyPrinter(show_spans=show_spans, show_node_ids=show_node_ids)
     printer.visit(node)
     return "\n".join(printer.lines)
 
 
-def print_ast(node: ast.Node, *, show_spans: bool = False) -> None:
-    print(format_ast(node, show_spans=show_spans))
+def print_ast(node: ast.Node, *, show_spans: bool = False, show_node_ids: bool = False) -> None:
+    print(format_ast(node, show_spans=show_spans, show_node_ids=show_node_ids))
 
 
 class AstPrettyPrinter:
-    def __init__(self, *, show_spans: bool):
+    def __init__(self, *, show_spans: bool, show_node_ids: bool):
         self.show_spans = show_spans
+        self.show_node_ids = show_node_ids
         self.lines: list[str] = []
         self.indent = 0
+        self._pending_node_id: ast.NodeId | None = None
 
     def visit(self, node: ast.Node | None) -> None:
         if node is None:
@@ -29,7 +31,10 @@ class AstPrettyPrinter:
         if method is None:
             self._line(type(node).__name__)
             return
+        previous = self._pending_node_id
+        self._pending_node_id = node.node_id
         method(node)
+        self._pending_node_id = previous
 
     def _visit_Program(self, node: ast.Program) -> None:
         self._branch("Program", node.span, lambda: [self.visit(decl) for decl in node.declarations])
@@ -120,7 +125,8 @@ class AstPrettyPrinter:
         self._line("ContinueStmt", node.span)
 
     def _visit_LiteralExpr(self, node: ast.LiteralExpr) -> None:
-        self._line(f"LiteralExpr {node.literal_kind} {node.value!r}", node.span)
+        rendered = repr(node.value) if node.literal_kind == "Bool" else node.lexeme
+        self._line(f"LiteralExpr {node.literal_kind} {rendered}", node.span, node.node_id)
 
     def _visit_IdentifierExpr(self, node: ast.IdentifierExpr) -> None:
         self._line(f"IdentifierExpr {node.name}", node.span)
@@ -164,11 +170,22 @@ class AstPrettyPrinter:
     def _pattern_text(self, pattern: ast.Pattern) -> str:
         if isinstance(pattern, ast.IdentifierPattern):
             return pattern.name
+        if isinstance(pattern, ast.IndexPattern):
+            return f"{pattern.name}[{self._expression_text(pattern.index)}]"
         if isinstance(pattern, ast.WildcardPattern):
             return "_"
         if isinstance(pattern, ast.TuplePattern):
             return f"({', '.join(self._pattern_text(p) for p in pattern.elements)})"
         return type(pattern).__name__
+
+    def _expression_text(self, expression: ast.Expr) -> str:
+        if isinstance(expression, ast.LiteralExpr):
+            return expression.lexeme
+        if isinstance(expression, ast.IdentifierExpr):
+            return expression.name
+        if isinstance(expression, ast.UnaryExpr):
+            return f"{expression.operator}{self._expression_text(expression.operand)}"
+        return type(expression).__name__
 
     def _branch(self, text: str, span: SourceSpan, body) -> None:
         self._line(text, span)
@@ -176,6 +193,10 @@ class AstPrettyPrinter:
         body()
         self.indent -= 1
 
-    def _line(self, text: str, span: SourceSpan | None = None) -> None:
+    def _line(self, text: str, span: SourceSpan | None = None, node_id: ast.NodeId | None = None) -> None:
         suffix = f" [{span}]" if self.show_spans and span else ""
+        node_id = node_id or self._pending_node_id
+        if self.show_node_ids and node_id is not None:
+            suffix += f" [node={node_id.value}]"
+        self._pending_node_id = None
         self.lines.append(f"{'  ' * self.indent}{text}{suffix}")

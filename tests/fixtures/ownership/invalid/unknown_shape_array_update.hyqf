@@ -1,0 +1,4 @@
+qfunc bad(qs: Array<Qubit>) -> Array<Qubit> {
+    let qs[0] = H(qs[0]);
+    return qs;
+}

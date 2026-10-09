@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field, fields
+from decimal import Decimal
 from typing import Any
 
 from hyqf.frontend.spans import SourceSpan
@@ -8,9 +9,40 @@ from hyqf.semantics.effects import Effect
 from hyqf.semantics.types import Type
 
 
+@dataclass(frozen=True, order=True)
+class NodeId:
+    value: int
+
+
+UNASSIGNED_NODE_ID = NodeId(-1)
+
+
 @dataclass(frozen=True)
 class Node:
     span: SourceSpan
+    node_id: NodeId = field(default=UNASSIGNED_NODE_ID, init=False, compare=False)
+
+
+def assign_node_ids(root: "Node") -> None:
+    """Assign deterministic preorder IDs after an AST has been constructed."""
+    next_id = 0
+
+    def visit(node: Node) -> None:
+        nonlocal next_id
+        object.__setattr__(node, "node_id", NodeId(next_id))
+        next_id += 1
+        for item in fields(node):
+            if item.name in {"span", "node_id"}:
+                continue
+            value = getattr(node, item.name)
+            if isinstance(value, Node):
+                visit(value)
+            elif isinstance(value, (list, tuple)):
+                for element in value:
+                    if isinstance(element, Node):
+                        visit(element)
+
+    visit(root)
 
 
 @dataclass(frozen=True)
@@ -97,6 +129,12 @@ class IdentifierPattern(Pattern):
 
 
 @dataclass(frozen=True)
+class IndexPattern(Pattern):
+    name: str
+    index: "Expr"
+
+
+@dataclass(frozen=True)
 class WildcardPattern(Pattern):
     pass
 
@@ -174,6 +212,16 @@ class Expr(Node):
 class LiteralExpr(Expr):
     value: Any
     literal_kind: str
+    lexeme: str
+
+
+@dataclass(frozen=True)
+class ExactComplex:
+    real: Decimal
+    imaginary: Decimal
+
+    def __complex__(self) -> complex:
+        return complex(float(self.real), float(self.imaginary))
 
 
 @dataclass(frozen=True)

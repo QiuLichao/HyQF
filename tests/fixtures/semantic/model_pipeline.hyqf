@@ -1,0 +1,6 @@
+qfunc choose(q: Qubit, enabled: Bool) -> Qubit {
+    if (enabled) {
+        let q = H(q);
+    }
+    return q;
+}

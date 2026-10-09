@@ -1,0 +1,4 @@
+qfunc prepare() -> Qubit {
+    let q = PrepareZero();
+    return q;
+}

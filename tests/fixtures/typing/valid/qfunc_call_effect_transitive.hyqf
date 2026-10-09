@@ -1,0 +1,14 @@
+qfunc first(q: Qubit) -> Qubit {
+    let q = second(q);
+    return q;
+}
+
+qfunc second(q: Qubit) -> Qubit {
+    let q = third(q);
+    return q;
+}
+
+qfunc third(q: Qubit) -> Qubit {
+    let q = H(q);
+    return q;
+}

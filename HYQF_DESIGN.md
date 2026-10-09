@@ -306,6 +306,7 @@ verify_decl
 
 pattern
     ::= IDENTIFIER
+     |  IDENTIFIER "[" expression "]"
      |  "_"
      |  "(" pattern { "," pattern } ")" ;
 ```
@@ -387,6 +388,21 @@ function_type
 ## 11. Standard Quantum Operations
 
 The compiler must not hardcode gate names into the lexer. Standard operations are registered through `qop` signatures.
+
+In v0.1, a source-level `qop` declaration has a deliberately restricted
+resource-flow contract: quantum input and output leaves correspond in canonical
+left-to-right order; unmatched inputs are terminal, and unmatched outputs are
+fresh only when the declaration has the `allocation` effect. This rule makes
+the source syntax concise without guessing arbitrary operation semantics.
+Operations whose output ownership order differs from their input order, such
+as an ownership-swapping primitive, MUST be registered through the host
+`QopRegistry` with an explicit `ResourceFlowContract`. The host API never
+infers a quantum contract unless the caller explicitly requests
+`flow_policy="positional"`.
+
+This concerns logical ownership lineage, not physical state evolution. For
+example, `CX(c, t)` keeps output 0 as the successor of `c` and output 1 as the
+successor of `t`, even though the two-qubit state may become entangled.
 
 A minimal standard library should declare at least:
 
@@ -565,6 +581,10 @@ Implicit dropping of live quantum resources is an error.
 For v0.1:
 
 - statically indexed access is supported;
+- `let qs[k] = expression;` performs atomic linear element rebinding for a compile-time integer `k`;
+- tuple patterns such as `let (qs[0], qs[1]) = CX(qs[0], qs[1]);` update multiple elements of one array atomically;
+- an update target must have been consumed by the right-hand expression, so no live element can be silently overwritten;
+- the update produces a new complete array binding while untouched elements pass through with the same logical resources;
 - runtime indexed access may be represented in AST/IR but is an **MVP extension point**, because safe exclusive borrowing of a dynamically selected element requires additional ownership machinery.
 
 Do not silently treat runtime `qs[i]` as a copyable reference.
@@ -658,6 +678,8 @@ The number of iterations may be unknown at compile time.
 ## 18. FHQIR Design
 
 FHQIR is the canonical internal representation after static semantic analysis.
+
+The normative implementation-level specification is maintained in `FHQIR_DESIGN.md`.
 
 ### 18.1 Properties
 

@@ -1,0 +1,4 @@
+qfunc recur(q: Qubit) -> Qubit {
+    let q = recur(q);
+    return q;
+}

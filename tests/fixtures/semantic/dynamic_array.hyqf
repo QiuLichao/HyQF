@@ -1,0 +1,3 @@
+qfunc array_identity(qs: Array<Qubit>) -> Array<Qubit> {
+    return qs;
+}

@@ -1,0 +1,8 @@
+qfunc swap(a: Qubit, b: Qubit) -> (Qubit, Qubit) {
+    return (b, a);
+}
+
+qfunc caller(a: Qubit, b: Qubit) -> (Qubit, Qubit) {
+    let (left, right) = swap(a, b);
+    return (left, right);
+}

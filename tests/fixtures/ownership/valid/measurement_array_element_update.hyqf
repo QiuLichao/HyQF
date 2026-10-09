@@ -1,0 +1,5 @@
+qfunc measure_first() -> (Array<Qubit>, Bit) {
+    let qs = new Qubit[1];
+    let (qs[0], bit) = measure_z(qs[0]);
+    return (qs, bit);
+}

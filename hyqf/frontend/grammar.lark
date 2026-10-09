@@ -41,7 +41,7 @@ return_stmt: "return" expression? ";"
 break_stmt: "break" ";"
 continue_stmt: "continue" ";"
 
-pattern: IDENTIFIER | "_" | "(" pattern ("," pattern)+ ")"
+pattern: IDENTIFIER | IDENTIFIER "[" expression "]" | "_" | "(" pattern ("," pattern)+ ")"
 lvalue: IDENTIFIER | postfix "[" expression "]"
 
 expression: logical_or

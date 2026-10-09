@@ -4,7 +4,7 @@ Program
   ConstDecl f
     LiteralExpr Float 3.14159
   ConstDecl s
-    LiteralExpr Float 1e-05
+    LiteralExpr Float 1e-5
   ConstDecl c
     LiteralExpr Complex 2.5j
   ConstDecl t

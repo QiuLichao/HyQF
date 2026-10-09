@@ -3,13 +3,11 @@ from hyqf.frontend.pretty import print_ast
 from hyqf.semantics.typecheck import TypeChecker
 
 source = """
-qfunc bad() -> Qubit {
-    let qs = new Qubit[2];
-    let qs[0] = H(qs[0]);
-    let again = qs[0];
-    return qs[0];
-}
+qop discard(q: Qubit) -> Void effects { measurement };
 
+qfunc valid(q: Qubit) {
+    discard(q);
+}
 """
 
 program = parse_source(source, file="example.hyqf")

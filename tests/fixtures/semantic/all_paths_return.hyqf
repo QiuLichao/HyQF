@@ -1,0 +1,8 @@
+qfunc choose_int(enabled: Bool) -> Int {
+    if (enabled) {
+        return 1;
+    } else {
+        return 2;
+    }
+    let unreachable = 3;
+}

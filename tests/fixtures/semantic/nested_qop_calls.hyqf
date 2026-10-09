@@ -1,0 +1,4 @@
+qfunc nested(q: Qubit) -> Qubit {
+    let q = H(H(q));
+    return q;
+}

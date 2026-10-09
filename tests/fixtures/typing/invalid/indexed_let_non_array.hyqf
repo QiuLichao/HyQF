@@ -1,0 +1,4 @@
+qfunc bad(q: Qubit) -> Qubit {
+    let q[0] = H(q);
+    return q;
+}

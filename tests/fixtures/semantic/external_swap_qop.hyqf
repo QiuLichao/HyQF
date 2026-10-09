@@ -1,0 +1,4 @@
+qfunc use_swap(a: Qubit, b: Qubit) -> (Qubit, Qubit) {
+    let (left, right) = Swap(a, b);
+    return (left, right);
+}

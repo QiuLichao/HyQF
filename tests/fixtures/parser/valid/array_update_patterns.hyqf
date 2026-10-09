@@ -1,0 +1,5 @@
+qfunc update(qs: Array<Qubit>) -> Array<Qubit> {
+    let qs[0] = H(qs[0]);
+    let (qs[0], qs[1]) = CX(qs[0], qs[1]);
+    return qs;
+}

@@ -1,0 +1,5 @@
+qfunc bad() -> Array<Qubit> {
+    let qs = new Qubit[1];
+    let qs[0] = 1;
+    return qs;
+}

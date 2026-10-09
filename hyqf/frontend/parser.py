@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from decimal import Decimal
+
 from hyqf.diagnostics.errors import ParseError
 from hyqf.frontend import ast
 from hyqf.frontend.spans import SourceSpan
@@ -31,7 +33,9 @@ class Parser:
         while not self._check("EOF"):
             declarations.append(self._top_level_decl())
         end = self._peek().span
-        return ast.Program(start.merge(end), declarations)
+        program = ast.Program(start.merge(end), declarations)
+        ast.assign_node_ids(program)
+        return program
 
     def _top_level_decl(self) -> ast.TopLevelDecl:
         if self._match_kw("module"):
@@ -206,6 +210,10 @@ class Parser:
             return ast.WildcardPattern(self._previous().span)
         if self._match_ident():
             token = self._previous()
+            if self._match_sym("["):
+                index = self._expression()
+                end = self._expect_sym("]").span
+                return ast.IndexPattern(token.span.merge(end), token.value, index)
             return ast.IdentifierPattern(token.span, token.value)
         if self._match_sym("_"):
             return ast.WildcardPattern(self._previous().span)
@@ -292,16 +300,17 @@ class Parser:
     def _primary(self) -> ast.Expr:
         if self._match("INT"):
             t = self._previous()
-            return ast.LiteralExpr(t.span, int(t.value), "Int")
+            return ast.LiteralExpr(t.span, int(t.value), "Int", t.value)
         if self._match("FLOAT"):
             t = self._previous()
-            return ast.LiteralExpr(t.span, float(t.value), "Float")
+            return ast.LiteralExpr(t.span, Decimal(t.value), "Float", t.value)
         if self._match("COMPLEX"):
             t = self._previous()
-            return ast.LiteralExpr(t.span, complex(t.value), "Complex")
+            value = ast.ExactComplex(Decimal(0), Decimal(t.value[:-1]))
+            return ast.LiteralExpr(t.span, value, "Complex", t.value)
         if self._match_kw("true", "false"):
             t = self._previous()
-            return ast.LiteralExpr(t.span, t.value == "true", "Bool")
+            return ast.LiteralExpr(t.span, t.value == "true", "Bool", t.value)
         if self._match_ident():
             t = self._previous()
             return ast.IdentifierExpr(t.span, t.value)

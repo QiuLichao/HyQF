@@ -75,3 +75,8 @@ class VerificationUnsupported(DiagnosticError):
 class BackendCapabilityError(DiagnosticError):
     def __init__(self, message: str, span: SourceSpan | None = None):
         super().__init__(message, span, "HYQF_BACKEND_CAPABILITY")
+
+
+class SemanticModelError(DiagnosticError):
+    def __init__(self, message: str):
+        super().__init__(message, None, "HYQF_SEMANTIC_MODEL")

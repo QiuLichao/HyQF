@@ -1,0 +1,5 @@
+qfunc bad() -> Array<Qubit> {
+    let qs = new Qubit[2];
+    let (qs[0], qs[0]) = CX(qs[0], qs[1]);
+    return qs;
+}

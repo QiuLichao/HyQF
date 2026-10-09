@@ -1,0 +1,24 @@
+Program
+  QFuncDecl update(qs: Array<Qubit>) -> Array<Qubit>
+    Block
+      LetStmt qs[0]
+        CallExpr
+          Callee
+            IdentifierExpr H
+          Arguments
+            IndexExpr
+              IdentifierExpr qs
+              LiteralExpr Int 0
+      LetStmt (qs[0], qs[1])
+        CallExpr
+          Callee
+            IdentifierExpr CX
+          Arguments
+            IndexExpr
+              IdentifierExpr qs
+              LiteralExpr Int 0
+            IndexExpr
+              IdentifierExpr qs
+              LiteralExpr Int 1
+      ReturnStmt
+        IdentifierExpr qs
